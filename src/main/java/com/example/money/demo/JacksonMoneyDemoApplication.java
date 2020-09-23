@@ -12,7 +12,7 @@ import org.zalando.jackson.datatype.money.MoneyModule;
 @SpringBootApplication
 public class JacksonMoneyDemoApplication {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(JacksonMoneyDemoApplication.class, args);
     }
 
@@ -22,14 +22,15 @@ public class JacksonMoneyDemoApplication {
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(final ObjectMapper objectMapper) {
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
 
     @Bean
-    public RestTemplate restTemplate(MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
-        return new RestTemplateBuilder()
-            .messageConverters(mappingJackson2HttpMessageConverter)
+    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder,
+                                     final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter) {
+        return restTemplateBuilder
+            .additionalMessageConverters(mappingJackson2HttpMessageConverter)
             .build();
     }
 
